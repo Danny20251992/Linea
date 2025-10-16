@@ -18,17 +18,16 @@
             color: #F9FAFB;
         }
 
-        /* Fondo Animado (Mismo estilo de inteligencia) */
+        /* Fondo Animado con gradientes sutiles */
         @keyframes moveGradient {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
-        
         .animated-bg {
-            background: radial-gradient(circle at 10% 20%, rgba(58, 129, 246, 0.4), transparent 40%),
-                        radial-gradient(circle at 80% 90%, rgba(139, 92, 246, 0.4), transparent 40%),
-                        radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.3), transparent 50%);
+            background: radial-gradient(circle at 10% 20%, rgba(58, 129, 246, 0.3), transparent 40%),
+                        radial-gradient(circle at 80% 90%, rgba(139, 92, 246, 0.3), transparent 40%),
+                        radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.2), transparent 50%);
             background-color: #0a0a1a;
             background-size: 400% 400%;
             animation: moveGradient 20s ease-in-out infinite;
@@ -41,12 +40,14 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1rem;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .glass-card:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+            transform: translateY(-4px);
         }
 
         /* Estilo Específico de la Línea de Tiempo */
-        .timeline-container {
-            position: relative;
-        }
         .timeline-container::before {
             content: '';
             position: absolute;
@@ -56,6 +57,7 @@
             height: 100%;
             background: linear-gradient(to bottom, #3b82f6, #8b5cf6, #10b981);
             border-radius: 2px;
+            z-index: -1;
         }
         @media (min-width: 768px) {
             .timeline-container::before {
@@ -63,54 +65,230 @@
                 transform: translateX(-50%);
             }
         }
+
+        /* Estilos para animación de entrada */
+        .timeline-item {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        .timeline-item.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Estilos para contenido expandible (Timeline) */
+        .event-details {
+            max-height: 50px;
+            overflow: hidden;
+            position: relative;
+            transition: max-height 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .event-details::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 25px;
+            background: linear-gradient(to top, rgba(10, 10, 26, 1), transparent);
+            transition: opacity 0.3s ease-in-out;
+        }
+        .event-details.expanded {
+            max-height: 500px;
+        }
+        .event-details.expanded::after {
+            opacity: 0;
+        }
+        .chevron-icon {
+            transition: transform 0.5s ease-in-out;
+        }
+        .expanded .chevron-icon {
+            transform: rotate(180deg);
+        }
+
+        /* Estilos para Acordeón del Dashboard */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .accordion-item.expanded .accordion-content {
+            max-height: 1000px; /* Suficientemente grande para el contenido */
+        }
+        .accordion-chevron {
+            transition: transform 0.5s ease-in-out;
+        }
+        .accordion-item.expanded .accordion-chevron {
+            transform: rotate(180deg);
+        }
     </style>
 </head>
 <body>
-    <div class="relative min-h-screen text-gray-200 p-4 sm:p-6 md:p-8 font-sans overflow-hidden">
+    <div class="relative min-h-screen text-gray-200 p-4 sm:p-6 md:p-8 font-sans overflow-x-hidden">
         <!-- Fondo animado -->
         <div class="absolute inset-0 -z-10 h-full w-full animated-bg"></div>
 
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Encabezado de Análisis -->
-            <div class="glass-card mb-12 p-8 text-center">
-                
-                <!-- Logos Centrados con Alto Marketing -->
+            <header class="glass-card mb-12 p-8 text-center">
+                <!-- Logos con efecto hover mejorado -->
                 <div class="flex justify-center items-center gap-x-8 mb-6">
-                    <img 
-                      src="https://github.com/Danny20251992/Protocolo-final/blob/main/img/images.png?raw=true" 
-                      alt="Escudo Policía Nacional del Ecuador" 
-                      class="h-24 object-contain transition-all duration-300 filter drop-shadow-[0_0_8px_rgba(58,129,246,0.6)] hover:drop-shadow-[0_0_16px_rgba(58,129,246,1)] hover:scale-105" 
-                      onerror="this.onerror=null; this.src='https://placehold.co/96x96/1f2937/ffffff?text=PNE';"
+                    <img
+                       src="https://github.com/Danny20251992/Protocolo-final/blob/main/img/images.png?raw=true"
+                       alt="Escudo Policía Nacional del Ecuador"
+                       class="h-24 object-contain transition-all duration-300 filter drop-shadow-[0_0_8px_rgba(58,129,246,0.6)] hover:drop-shadow-[0_0_16px_rgba(58,129,246,1)] hover:scale-105"
+                       onerror="this.onerror=null; this.src='https://placehold.co/96x96/1f2937/ffffff?text=PNE';"
                     />
-                    <img 
-                      src="https://github.com/Danny20251992/Protocolo-final/blob/main/img/DIGIN_logo-removebg-preview.png?raw=true" 
-                      alt="Logo DIGIN" 
-                      class="h-24 object-contain transition-all duration-300 filter drop-shadow-[0_0_8px_rgba(139,92,246,0.6)] hover:drop-shadow-[0_0_16px_rgba(139,92,246,1)] hover:scale-105" 
-                      onerror="this.onerror=null; this.src='https://placehold.co/96x96/1f2937/ffffff?text=DIGIN';"
+                    <img
+                       src="https://github.com/Danny20251992/Protocolo-final/blob/main/img/DIGIN_logo-removebg-preview.png?raw=true"
+                       alt="Logo DIGIN"
+                       class="h-24 object-contain transition-all duration-300 filter drop-shadow-[0_0_8px_rgba(139,92,246,0.6)] hover:drop-shadow-[0_0_16px_rgba(139,92,246,1)] hover:scale-105"
+                       onerror="this.onerror=null; this.src='https://placehold.co/96x96/1f2937/ffffff?text=DIGIN';"
                     />
                 </div>
-
                 <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-blue-400 to-violet-400 mb-2">
                     Línea de Tiempo del Paro Nacional (2025)
                 </h1>
                 <p class="text-gray-300 text-lg font-medium mt-2">
                     Análisis de la Progresión del Conflicto y las Acciones del Gobierno para la Restauración del Orden
                 </p>
+                <!-- Leyenda de categorías -->
                 <div class="flex flex-wrap justify-center gap-4 mt-6 text-sm">
                     <span class="flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/50 border border-blue-400/50">
-                        <span class="h-3 w-3 rounded-full bg-blue-500"></span> Acciones de Gobierno
+                        <i data-lucide="zap" class="w-4 h-4 text-blue-400"></i> Acciones de Gobierno
                     </span>
                     <span class="flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-900/50 border border-yellow-400/50">
-                        <span class="h-3 w-3 rounded-full bg-yellow-500"></span> Amenaza de Desorden Público
+                        <i data-lucide="alert-triangle" class="w-4 h-4 text-yellow-400"></i> Amenaza de Desorden
                     </span>
                     <span class="flex items-center gap-2 px-3 py-1 rounded-full bg-red-900/50 border border-red-400/50">
-                        <span class="h-3 w-3 rounded-full bg-red-500"></span> Actos de Violencia y Ataques
+                        <i data-lucide="swords" class="w-4 h-4 text-red-400"></i> Actos de Violencia
                     </span>
                 </div>
-            </div>
+            </header>
 
-            <!-- Contenedor de la Línea de Tiempo con nuevo max-width -->
-            <div id="timeline" class="timeline-container mx-auto max-w-5xl space-y-12 pb-16">
+            <!-- Dashboard de Situación Actual -->
+            <section id="dashboard" class="glass-card mb-12 p-6 md:p-8">
+                <div class="text-center">
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-blue-400 to-violet-400 mb-2">
+                        Situación Actual del Paro Nacional
+                    </h2>
+                    <p class="text-gray-400 text-sm mb-8">Actualizado: 16 de Octubre de 2025, 14:00h</p>
+                </div>
+
+                <!-- Métricas Principales -->
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-left mb-8">
+                    <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-700/50">
+                        <h3 class="text-sm font-semibold text-gray-400 flex items-center gap-2"><i data-lucide="activity" class="w-4 h-4"></i>Total de Eventos</h3>
+                        <p class="text-4xl font-bold text-white">39</p>
+                        <div class="text-xs mt-2 space-y-1">
+                            <p class="text-green-400 flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-green-400"></span>En Desarrollo: 29</p>
+                            <p class="text-red-400 flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-red-400"></span>Finalizadas: 01</p>
+                            <p class="text-yellow-400 flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-yellow-400"></span>Previstos: 09</p>
+                        </div>
+                    </div>
+                    <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-700/50">
+                         <h3 class="text-sm font-semibold text-gray-400 flex items-center gap-2"><i data-lucide="map-pin" class="w-4 h-4"></i>Cierres en Imbabura</h3>
+                         <p class="text-4xl font-bold text-white">15</p>
+                         <p class="text-xs mt-2 text-gray-400">Principal foco de alteración.</p>
+                    </div>
+                    <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-700/50">
+                         <h3 class="text-sm font-semibold text-gray-400 flex items-center gap-2"><i data-lucide="user-x" class="w-4 h-4"></i>Aprehendidos</h3>
+                         <p class="text-4xl font-bold text-white">137</p>
+                         <p class="text-xs mt-2 text-gray-400">A nivel nacional.</p>
+                    </div>
+                    <div class="bg-gray-900/50 p-4 rounded-lg border border-gray-700/50">
+                         <h3 class="text-sm font-semibold text-gray-400 flex items-center gap-2"><i data-lucide="shield-alert" class="w-4 h-4"></i>Policías Heridos</h3>
+                         <p class="text-4xl font-bold text-white">28</p>
+                         <p class="text-xs mt-2 text-gray-400">Servidores en servicio.</p>
+                    </div>
+                </div>
+
+                <!-- Secciones de Detalles (Acordeón) -->
+                <div class="space-y-3 text-left">
+                    <div class="accordion-item bg-gray-900/50 rounded-lg border border-gray-700/50 overflow-hidden">
+                        <button onclick="toggleAccordion(this)" class="w-full p-4 flex justify-between items-center text-md font-semibold text-gray-200 hover:bg-gray-800/50 transition-colors">
+                            <span class="flex items-center gap-2"><i data-lucide="road-off" class="w-5 h-5 text-yellow-400"></i>Detalle de Cierres Viales por Provincia</span>
+                            <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <div class="p-4 text-sm text-gray-300 border-t border-gray-700/50 space-y-3">
+                                <p><strong>CARCHI (3):</strong> Bolívar/El Izal, Montúfar/Piquiucho, Montúfar/Mascarilla.</p>
+                                <p><strong>IMBABURA (15):</strong> Otavalo (Ilumán, Peguche, Quichinche, Magdalena, Eugenio Espejo, Huaycopungo, Gonzáles Suárez, San Rafael, Quinde, Selva Alegre), Antonio Ante (San Roque, San Vicente), Urcuquí/Coñaquí, Ibarra/Galo Plaza Lasso, Cotacachi.</p>
+                                <p><strong>PICHINCHA (5):</strong> Pedro Moncayo (Cajas Jurídico, Loma Gorda), Cayambe (San Isidro de Cajas, Florencia Bajo, Santa María Milán).</p>
+                                <p><strong>PASTAZA (1):</strong> Parroquia Canelos (Vigilia).</p>
+                                <p><strong>LOJA (3):</strong> Puente Sinincapac, Saraguro (Parque La Madre, San Vicente).</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="accordion-item bg-gray-900/50 rounded-lg border border-gray-700/50 overflow-hidden">
+                        <button onclick="toggleAccordion(this)" class="w-full p-4 flex justify-between items-center text-md font-semibold text-gray-200 hover:bg-gray-800/50 transition-colors">
+                            <span class="flex items-center gap-2"><i data-lucide="gavel" class="w-5 h-5 text-blue-400"></i>Detalle de 137 Aprehendidos</span>
+                            <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <ul class="p-4 text-sm text-gray-300 border-t border-gray-700/50 list-disc list-inside space-y-1">
+                                <li><strong>53</strong> por Paralización de un Servicio Público</li>
+                                <li><strong>21</strong> por Incumplimiento de Decisiones Legítimas</li>
+                                <li><strong>18</strong> por Contravención</li>
+                                <li><strong>16</strong> por Terrorismo</li>
+                                <li><strong>16</strong> por Ataque o Resistencia</li>
+                                <li><strong>4</strong> por Concurrencia de Infracciones</li>
+                                <li><strong>3</strong> por Armas de fuego no autorizadas</li>
+                                <li><strong>2</strong> por Lesiones</li>
+                                <li><strong>2</strong> por Deportación</li>
+                                <li><strong>1</strong> por Daño a Bien Ajeno</li>
+                                <li><strong>1</strong> por Boleta de Apremio</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="accordion-item bg-gray-900/50 rounded-lg border border-gray-700/50 overflow-hidden">
+                        <button onclick="toggleAccordion(this)" class="w-full p-4 flex justify-between items-center text-md font-semibold text-gray-200 hover:bg-gray-800/50 transition-colors">
+                            <span class="flex items-center gap-2"><i data-lucide="truck" class="w-5 h-5 text-red-400"></i>Novedades con Medios Logísticos</span>
+                            <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                             <div class="p-4 text-sm text-gray-300 border-t border-gray-700/50 space-y-3">
+                                <div>
+                                    <h4 class="font-semibold mb-1">Infraestructura (2):</h4>
+                                    <ul class="list-disc list-inside pl-2">
+                                        <li>Distrito Valle del Amanecer (PJ Otavalo)</li>
+                                        <li>Zona 8 Cárcel La Roca (Explosión de vehículo)</li>
+                                    </ul>
+                                </div>
+                                <div>
+                                    <h4 class="font-semibold mb-1">Vehículos (14):</h4>
+                                    <ul class="list-disc list-inside pl-2">
+                                        <li>01 Bus UNMO, 01 Camioneta, 04 Motos, 04 Vehículos (Valle del Amanecer)</li>
+                                        <li>01 Camioneta, 01 Patrullero, 01 Moto (DMQ y Alausí)</li>
+                                        <li>01 Camioneta GOE (Lago Agrio)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                     <div class="accordion-item bg-gray-900/50 rounded-lg border border-gray-700/50 overflow-hidden">
+                        <button onclick="toggleAccordion(this)" class="w-full p-4 flex justify-between items-center text-md font-semibold text-gray-200 hover:bg-gray-800/50 transition-colors">
+                            <span class="flex items-center gap-2"><i data-lucide="user-cog" class="w-5 h-5 text-teal-400"></i>Servidores Policiales Heridos por Provincia</span>
+                            <i data-lucide="chevron-down" class="accordion-chevron w-5 h-5 transition-transform"></i>
+                        </button>
+                        <div class="accordion-content">
+                            <ul class="p-4 text-sm text-gray-300 border-t border-gray-700/50 list-disc list-inside space-y-1">
+                                <li><strong>Imbabura:</strong> 16 heridos</li>
+                                <li><strong>DMQ:</strong> 04 heridos</li>
+                                <li><strong>Pichincha:</strong> 02 heridos</li>
+                                <li><strong>Bolívar:</strong> 02 heridos</li>
+                                <li><strong>Sucumbíos:</strong> 02 heridos</li>
+                                <li><strong>Cañar:</strong> 01 herido</li>
+                                <li><strong>Los Ríos:</strong> 01 herido</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contenedor de la Línea de Tiempo -->
+            <div id="timeline" class="timeline-container mx-auto max-w-5xl space-y-4 md:space-y-0 pb-16">
                 <!-- Los eventos serán inyectados aquí por JS -->
             </div>
         </div>
@@ -127,109 +305,85 @@
             { date: '24 Septiembre', category: 'GovtAction', title: 'Operación de Despliegue Estratégico', details: 'Las Fuerzas Armadas realizan un operativo estratégico a gran escala en Imbabura para garantizar la seguridad del Presidente y la libre circulación en la zona.' },
             { date: '28 Septiembre', category: 'Conflict', title: 'Emboscada Violenta contra Convoy Presidencial', details: 'Un convoy de Estado y diplomáticos, liderado por el Presidente, fue brutalmente atacado por 350 personas con armas incendiarias y piedras en Imbabura. La FF.AA. refuerza el control.' },
             { date: '29 Septiembre', category: 'Conflict', title: 'Reiteración de Ataque Organizado', details: 'Se produce una segunda emboscada organizada contra la comitiva de Estado en Imbabura. Se reportan daños materiales graves a los vehículos oficiales.' },
-            { date: '4 Octubre', category: 'GovtAction', title: 'Decreto para la Restauración del Orden', details: 'El Presidente decreta el Estado de Excepción en 10 provincias, medida constitucional indispensable para mitigar la grave conmoción interna y los bloqueos viales, mediante decreto 174' },
+            { date: '4 Octubre', category: 'GovtAction', title: 'Decreto para la Restauración del Orden', details: 'El Presidente decreta el Estado de Excepción en 10 provincias, medida constitucional indispensable para mitigar la grave conmoción interna y los bloqueos viales, mediante decreto 174.' },
             { date: '12 Octubre', category: 'ProtestEscalation', title: 'Vigésimo Día de Bloqueos Sistemáticos', details: 'El paro se prolonga 20 días, con Imbabura como principal foco de alteración. La Fuerza Pública mantiene una fuerte presencia para la protección ciudadana.' },
             { date: '13 Octubre', category: 'GovtAction', title: 'Movilización Masiva para el Despeje Vial', details: 'Se despliega un convoy de 1.000 militares y policías desde Quito hacia Imbabura para garantizar el envío de insumos esenciales y la libre circulación.' },
             { date: '14 Octubre', category: 'Conflict', title: 'Operativo de Control de Disturbios en Otavalo', details: 'La Fuerza Pública neutraliza un ataque a un convoy humanitario en Otavalo, resultando en fuertes enfrentamientos. Se logra la detención de 43 protestantes por vandalismo y agresión.' },
-            { date: '15 Octubre', category: 'GovtAction', title: 'Extensión de la Medida de Seguridad', details: 'El Presidente mantiene  el Estado de Excepción para asegurar el restablecimiento total del orden y proteger los derechos constitucionales.' },
+            { date: '15 Octubre', category: 'GovtAction', title: 'Extensión de la Medida de Seguridad', details: 'El Presidente mantiene el Estado de Excepción para asegurar el restablecimiento total del orden y proteger los derechos constitucionales.' },
             { date: '16 Octubre', category: 'GovtAction', title: 'Gestión de Diálogo y Pacificación', details: 'Los 43 aprehendidos son liberados como un gesto del Gobierno Nacional, promoviendo el diálogo con la dirigencia indígena para lograr la paz.' }
         ];
 
-        // Mapeo de categorías a colores y SVG para la visualización
         const categoryMap = {
-            'GovtAction': { color: 'bg-blue-500', icon: 'zap', ring: 'ring-blue-700' },
-            'ProtestEscalation': { color: 'bg-yellow-500', icon: 'alert-triangle', ring: 'ring-yellow-700' },
-            'Conflict': { color: 'bg-red-600', icon: 'swords', ring: 'ring-red-800' }
+            'GovtAction': { color: 'bg-blue-500', icon: 'zap', ring: 'ring-blue-700/50' },
+            'ProtestEscalation': { color: 'bg-yellow-500', icon: 'alert-triangle', ring: 'ring-yellow-700/50' },
+            'Conflict': { color: 'bg-red-600', icon: 'swords', ring: 'ring-red-800/50' }
         };
-
-        /**
-         * Obtiene el icono de Lucide en formato SVG.
-         * @param {string} iconName - Nombre del icono de Lucide (ej: 'zap').
-         */
-        function getIconSVG(iconName) {
-            // Genera el SVG utilizando la librería lucide-icons, asumiendo que ya fue cargada.
-            const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-${iconName}"><title>${iconName}</title>`;
-            let path = '';
-            
-            switch(iconName) {
-                case 'zap': path = '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>'; break; // rayo (acción/decreto)
-                case 'alert-triangle': path = '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/>'; break; // prohibición/escalada
-                case 'swords': path = '<path d="m3 7 3 3 3-3"/><path d="M3 17h11"/><path d="M17 3v11l3 3h-8"/><path d="M14 14h6"/>'; break; // conflicto/enfrentamiento
-                default: path = '<circle cx="12" cy="12" r="10"/>'; // fallback
-            }
-            return `${icon}${path}</svg>`;
-        }
-
-
-        /**
-         * Renderiza la tarjeta de evento para la línea de tiempo.
-         * @param {object} event - Objeto del evento.
-         * @param {number} index - Índice del evento.
-         */
+        
         function renderTimelineCard(event, index) {
             const { color, icon, ring } = categoryMap[event.category];
-            const isLeft = index % 2 === 0; // Alterna lados para desktop
-
-            // Estructura de layout responsiva
-            let sideClasses = isLeft ? 'md:left-0 md:text-right' : 'md:left-1/2 md:translate-x-1/2 md:text-left';
-            let dateClasses = isLeft ? 'md:right-full md:mr-6' : 'md:left-full md:ml-6';
-
-            // El layout en móvil es siempre a la izquierda (left-0, left-4)
-            sideClasses = 'relative w-full md:w-1/2 ' + sideClasses;
-            dateClasses = 'absolute top-0 hidden md:block w-32 font-mono text-lg text-gray-400 ' + dateClasses;
-
-
+            const isLeft = index % 2 === 0;
+            const sideClasses = isLeft ? 'md:pr-8' : 'md:pl-8 md:self-end';
+            
             return `
-                <div class="relative mb-8 ${sideClasses}">
-                    <!-- Fecha para Desktop -->
-                    <div class="${dateClasses}">
-                        <span class="font-bold text-teal-300">${event.date}</span>
-                    </div>
-
-                    <!-- Punto de la Línea de Tiempo (Móvil y Desktop) -->
-                    <div class="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 -translate-x-1/2 z-10 top-2">
+                <div class="timeline-item relative flex flex-col md:w-1/2 ${sideClasses} mb-8 md:mb-12">
+                    <div class="absolute top-2 z-10 ${isLeft ? 'md:right-0 md:translate-x-1/2' : 'md:left-0 md:-translate-x-1/2'} left-4 -translate-x-1/2">
                         <div class="h-5 w-5 rounded-full ${color} ring-4 ${ring} flex items-center justify-center shadow-lg">
-                            ${getIconSVG(icon)}
+                            <i data-lucide="${icon}" class="w-3 h-3 text-white"></i>
                         </div>
                     </div>
-                    
-                    <!-- Tarjeta de Evento -->
-                    <div class="glass-card p-5 ml-12 md:ml-0 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.01]">
+                    <div class="timeline-card glass-card p-5 ml-12 md:ml-0 cursor-pointer" onclick="toggleDetails(this)">
                         <div class="flex items-center gap-4 mb-2">
                             <span class="md:hidden text-lg font-bold text-teal-300">${event.date}</span>
-                            <h3 class="font-extrabold text-xl text-gray-100">${event.title}</h3>
+                             <h3 class="font-extrabold text-xl text-gray-100 flex-grow">${event.title}</h3>
+                             <span class="hidden md:inline-block font-mono text-lg text-gray-400">${event.date}</span>
                         </div>
-
-                        <!-- Flecha indicadora (solo en desktop para apuntar a la línea central) -->
-                        <div class="absolute top-4 h-0 w-0 border-y-[10px] border-y-transparent ${isLeft ? 'md:right-[-1rem] md:border-l-[15px] md:border-l-white/10' : 'md:left-[-1rem] md:border-r-[15px] md:border-r-white/10'} hidden md:block"></div>
-
-                        <!-- Contenido expandible -->
-                        <div class="overflow-hidden transition-all duration-500 ease-in-out">
-                            <p class="text-sm text-gray-400 leading-relaxed mt-2">${event.details}</p>
+                        <div class="event-details">
+                            <p class="text-sm text-gray-300 leading-relaxed mt-2">${event.details}</p>
+                        </div>
+                        <div class="text-center mt-2">
+                            <i data-lucide="chevron-down" class="chevron-icon w-5 h-5 text-gray-400 mx-auto"></i>
                         </div>
                     </div>
                 </div>
             `;
         }
 
-        /**
-         * Inicia el renderizado de la línea de tiempo al cargar la ventana.
-         */
+        function toggleDetails(cardElement) {
+            const detailsContainer = cardElement.querySelector('.event-details');
+            const cardWrapper = cardElement.parentElement;
+            cardWrapper.classList.toggle('expanded');
+            detailsContainer.classList.toggle('expanded');
+        }
+
+        function toggleAccordion(buttonElement) {
+            const item = buttonElement.closest('.accordion-item');
+            item.classList.toggle('expanded');
+        }
+
         window.onload = function() {
             const timelineContainer = document.getElementById('timeline');
             
             let htmlContent = '';
             events.forEach((event, index) => {
-                // Alternamos la posición de las tarjetas para la vista de escritorio
-                if (index % 2 !== 0 && window.innerWidth >= 768) {
-                    htmlContent += '<div class="clearfix"></div>'; // Separa las filas en desktop
-                }
                 htmlContent += renderTimelineCard(event, index);
             });
 
             timelineContainer.innerHTML = htmlContent;
-        };
+            lucide.createIcons();
 
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
+                        observer.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+
+            const items = document.querySelectorAll('.timeline-item');
+            items.forEach(item => observer.observe(item));
+        };
     </script>
 </body>
 </html>
+
