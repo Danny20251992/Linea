@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análisis Gráfico: Línea de Tiempo del Paro Ecuador 2025 - Perspectiva de Seguridad</title>
+    <!-- Carga de Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Carga de Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Configuración del font Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #0a0a1a;
+            color: #F9FAFB;
+        }
+
+        /* Fondo Animado (Mismo estilo de inteligencia) */
+        @keyframes moveGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .animated-bg {
+            background: radial-gradient(circle at 10% 20%, rgba(58, 129, 246, 0.4), transparent 40%),
+                        radial-gradient(circle at 80% 90%, rgba(139, 92, 246, 0.4), transparent 40%),
+                        radial-gradient(circle at 50% 50%, rgba(20, 184, 166, 0.3), transparent 50%);
+            background-color: #0a0a1a;
+            background-size: 400% 400%;
+            animation: moveGradient 20s ease-in-out infinite;
+        }
+
+        /* Estilo Glassmorphism para las tarjetas */
+        .glass-card {
+            background-color: rgba(10, 10, 26, 0.6);
+            backdrop-filter: blur(14px) saturate(140%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Estilo Específico de la Línea de Tiempo */
+        .timeline-container {
+            position: relative;
+        }
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 1rem; /* Posición de la línea en móvil */
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(to bottom, #3b82f6, #8b5cf6, #10b981);
+            border-radius: 2px;
+        }
+        @media (min-width: 768px) {
+            .timeline-container::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="relative min-h-screen text-gray-200 p-4 sm:p-6 md:p-8 font-sans overflow-hidden">
+        <!-- Fondo animado -->
+        <div class="absolute inset-0 -z-10 h-full w-full animated-bg"></div>
+
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <!-- Encabezado de Análisis -->
+            <div class="glass-card mb-12 p-8 text-center">
+                
+                <!-- Logos Centrados con Alto Marketing -->
+                <div class="flex justify-center items-center gap-x-8 mb-6">
+                    <img 
+                      src="https://github.com/Danny20251992/Protocolo-final/blob/main/img/images.png?raw=true" 
+                      alt="Escudo Policía Nacional del Ecuador" 
+                      class="h-24 object-contain transition-all duration-300 filter drop-shadow-[0_0_8px_rgba(58,129,246,0.6)] hover:drop-shadow-[0_0_16px_rgba(58,129,246,1)] hover:scale-105" 
+                      onerror="this.onerror=null; this.src='https://placehold.co/96x96/1f2937/ffffff?text=PNE';"
+                    />
+                    <img 
+                      src="https://github.com/Danny20251992/Protocolo-final/blob/main/img/DIGIN_logo-removebg-preview.png?raw=true" 
+                      alt="Logo DIGIN" 
+                      class="h-24 object-contain transition-all duration-300 filter drop-shadow-[0_0_8px_rgba(139,92,246,0.6)] hover:drop-shadow-[0_0_16px_rgba(139,92,246,1)] hover:scale-105" 
+                      onerror="this.onerror=null; this.src='https://placehold.co/96x96/1f2937/ffffff?text=DIGIN';"
+                    />
+                </div>
+
+                <h1 class="text-4xl md:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-teal-400 via-blue-400 to-violet-400 mb-2">
+                    Línea de Tiempo del Paro Nacional (2025)
+                </h1>
+                <p class="text-gray-300 text-lg font-medium mt-2">
+                    Análisis de la Progresión del Conflicto y las Acciones del Gobierno para la Restauración del Orden
+                </p>
+                <div class="flex flex-wrap justify-center gap-4 mt-6 text-sm">
+                    <span class="flex items-center gap-2 px-3 py-1 rounded-full bg-blue-900/50 border border-blue-400/50">
+                        <span class="h-3 w-3 rounded-full bg-blue-500"></span> Acciones de Gobierno
+                    </span>
+                    <span class="flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-900/50 border border-yellow-400/50">
+                        <span class="h-3 w-3 rounded-full bg-yellow-500"></span> Amenaza de Desorden Público
+                    </span>
+                    <span class="flex items-center gap-2 px-3 py-1 rounded-full bg-red-900/50 border border-red-400/50">
+                        <span class="h-3 w-3 rounded-full bg-red-500"></span> Actos de Violencia y Ataques
+                    </span>
+                </div>
+            </div>
+
+            <!-- Contenedor de la Línea de Tiempo con nuevo max-width -->
+            <div id="timeline" class="timeline-container mx-auto max-w-5xl space-y-12 pb-16">
+                <!-- Los eventos serán inyectados aquí por JS -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Datos de la Línea de Tiempo (A favor de la Policía Nacional, Militares y Gobierno) ---
+        const events = [
+            { date: '12 Septiembre', category: 'GovtAction', title: 'Decisión para la Estabilidad Económica', details: 'El presidente Noboa anuncia una medida de ajuste económico responsable para reducir el déficit fiscal, implementando la focalización del subsidio al diésel.' },
+            { date: '13 Septiembre', category: 'GovtAction', title: 'Activación de Medidas Compensatorias', details: 'El Gobierno Nacional anuncia bonos compensatorios y traslada la sede de gobierno a Latacunga para garantizar la gobernabilidad ante la inminente paralización del servicio de transporte.' },
+            { date: '15 Septiembre', category: 'ProtestEscalation', title: 'Focos de Bloqueo y Reacción Ciudadana', details: 'Inician los primeros focos de alteración del orden público con bloqueos de vías. La CONAIE se suma a las acciones de presión.' },
+            { date: '18 Septiembre', category: 'ProtestEscalation', title: 'Convocatoria a la Paralización Ilegal', details: 'La CONAIE convoca a un paro nacional indefinido que amenaza la paz y el abastecimiento nacional.' },
+            { date: '22 Septiembre', category: 'ProtestEscalation', title: 'Intento de Desestabilización General', details: 'El paro se formaliza con bloqueos de carreteras y los primeros intentos de confrontación contra la fuerza pública que busca mantener el orden.' },
+            { date: '24 Septiembre', category: 'GovtAction', title: 'Operación de Despliegue Estratégico', details: 'Las Fuerzas Armadas realizan un operativo estratégico a gran escala en Imbabura para garantizar la seguridad del Presidente y la libre circulación en la zona.' },
+            { date: '28 Septiembre', category: 'Conflict', title: 'Emboscada Violenta contra Convoy Presidencial', details: 'Un convoy de Estado y diplomáticos, liderado por el Presidente, fue brutalmente atacado por 350 personas con armas incendiarias y piedras en Imbabura. La FF.AA. refuerza el control.' },
+            { date: '29 Septiembre', category: 'Conflict', title: 'Reiteración de Ataque Organizado', details: 'Se produce una segunda emboscada organizada contra la comitiva de Estado en Imbabura. Se reportan daños materiales graves a los vehículos oficiales.' },
+            { date: '4 Octubre', category: 'GovtAction', title: 'Decreto para la Restauración del Orden', details: 'El Presidente decreta el Estado de Excepción en 10 provincias, medida constitucional indispensable para mitigar la grave conmoción interna y los bloqueos viales, mediante decreto 174' },
+            { date: '12 Octubre', category: 'ProtestEscalation', title: 'Vigésimo Día de Bloqueos Sistemáticos', details: 'El paro se prolonga 20 días, con Imbabura como principal foco de alteración. La Fuerza Pública mantiene una fuerte presencia para la protección ciudadana.' },
+            { date: '13 Octubre', category: 'GovtAction', title: 'Movilización Masiva para el Despeje Vial', details: 'Se despliega un convoy de 1.000 militares y policías desde Quito hacia Imbabura para garantizar el envío de insumos esenciales y la libre circulación.' },
+            { date: '14 Octubre', category: 'Conflict', title: 'Operativo de Control de Disturbios en Otavalo', details: 'La Fuerza Pública neutraliza un ataque a un convoy humanitario en Otavalo, resultando en fuertes enfrentamientos. Se logra la detención de 43 protestantes por vandalismo y agresión.' },
+            { date: '15 Octubre', category: 'GovtAction', title: 'Extensión de la Medida de Seguridad', details: 'El Presidente mantiene  el Estado de Excepción para asegurar el restablecimiento total del orden y proteger los derechos constitucionales.' },
+            { date: '16 Octubre', category: 'GovtAction', title: 'Gestión de Diálogo y Pacificación', details: 'Los 43 aprehendidos son liberados como un gesto del Gobierno Nacional, promoviendo el diálogo con la dirigencia indígena para lograr la paz.' }
+        ];
+
+        // Mapeo de categorías a colores y SVG para la visualización
+        const categoryMap = {
+            'GovtAction': { color: 'bg-blue-500', icon: 'zap', ring: 'ring-blue-700' },
+            'ProtestEscalation': { color: 'bg-yellow-500', icon: 'alert-triangle', ring: 'ring-yellow-700' },
+            'Conflict': { color: 'bg-red-600', icon: 'swords', ring: 'ring-red-800' }
+        };
+
+        /**
+         * Obtiene el icono de Lucide en formato SVG.
+         * @param {string} iconName - Nombre del icono de Lucide (ej: 'zap').
+         */
+        function getIconSVG(iconName) {
+            // Genera el SVG utilizando la librería lucide-icons, asumiendo que ya fue cargada.
+            const icon = `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-${iconName}"><title>${iconName}</title>`;
+            let path = '';
+            
+            switch(iconName) {
+                case 'zap': path = '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>'; break; // rayo (acción/decreto)
+                case 'alert-triangle': path = '<path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" x2="12" y1="9" y2="13"/><line x1="12" x2="12.01" y1="17" y2="17"/>'; break; // prohibición/escalada
+                case 'swords': path = '<path d="m3 7 3 3 3-3"/><path d="M3 17h11"/><path d="M17 3v11l3 3h-8"/><path d="M14 14h6"/>'; break; // conflicto/enfrentamiento
+                default: path = '<circle cx="12" cy="12" r="10"/>'; // fallback
+            }
+            return `${icon}${path}</svg>`;
+        }
+
+
+        /**
+         * Renderiza la tarjeta de evento para la línea de tiempo.
+         * @param {object} event - Objeto del evento.
+         * @param {number} index - Índice del evento.
+         */
+        function renderTimelineCard(event, index) {
+            const { color, icon, ring } = categoryMap[event.category];
+            const isLeft = index % 2 === 0; // Alterna lados para desktop
+
+            // Estructura de layout responsiva
+            let sideClasses = isLeft ? 'md:left-0 md:text-right' : 'md:left-1/2 md:translate-x-1/2 md:text-left';
+            let dateClasses = isLeft ? 'md:right-full md:mr-6' : 'md:left-full md:ml-6';
+
+            // El layout en móvil es siempre a la izquierda (left-0, left-4)
+            sideClasses = 'relative w-full md:w-1/2 ' + sideClasses;
+            dateClasses = 'absolute top-0 hidden md:block w-32 font-mono text-lg text-gray-400 ' + dateClasses;
+
+
+            return `
+                <div class="relative mb-8 ${sideClasses}">
+                    <!-- Fecha para Desktop -->
+                    <div class="${dateClasses}">
+                        <span class="font-bold text-teal-300">${event.date}</span>
+                    </div>
+
+                    <!-- Punto de la Línea de Tiempo (Móvil y Desktop) -->
+                    <div class="absolute left-4 md:left-1/2 transform md:-translate-x-1/2 -translate-x-1/2 z-10 top-2">
+                        <div class="h-5 w-5 rounded-full ${color} ring-4 ${ring} flex items-center justify-center shadow-lg">
+                            ${getIconSVG(icon)}
+                        </div>
+                    </div>
+                    
+                    <!-- Tarjeta de Evento -->
+                    <div class="glass-card p-5 ml-12 md:ml-0 shadow-xl hover:shadow-2xl transition-all duration-300 transform hover:scale-[1.01]">
+                        <div class="flex items-center gap-4 mb-2">
+                            <span class="md:hidden text-lg font-bold text-teal-300">${event.date}</span>
+                            <h3 class="font-extrabold text-xl text-gray-100">${event.title}</h3>
+                        </div>
+
+                        <!-- Flecha indicadora (solo en desktop para apuntar a la línea central) -->
+                        <div class="absolute top-4 h-0 w-0 border-y-[10px] border-y-transparent ${isLeft ? 'md:right-[-1rem] md:border-l-[15px] md:border-l-white/10' : 'md:left-[-1rem] md:border-r-[15px] md:border-r-white/10'} hidden md:block"></div>
+
+                        <!-- Contenido expandible -->
+                        <div class="overflow-hidden transition-all duration-500 ease-in-out">
+                            <p class="text-sm text-gray-400 leading-relaxed mt-2">${event.details}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        /**
+         * Inicia el renderizado de la línea de tiempo al cargar la ventana.
+         */
+        window.onload = function() {
+            const timelineContainer = document.getElementById('timeline');
+            
+            let htmlContent = '';
+            events.forEach((event, index) => {
+                // Alternamos la posición de las tarjetas para la vista de escritorio
+                if (index % 2 !== 0 && window.innerWidth >= 768) {
+                    htmlContent += '<div class="clearfix"></div>'; // Separa las filas en desktop
+                }
+                htmlContent += renderTimelineCard(event, index);
+            });
+
+            timelineContainer.innerHTML = htmlContent;
+        };
+
+    </script>
+</body>
+</html>
